@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Diary App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Patrick Hand', cursive;
+            background-color: #F7CFD8;
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+        }
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: pulse 6s infinite ease-in-out;
+        }
+
+        .circle1 {
+            width: 200px;
+            height: 200px;
+            background-color: #A6D6D6;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .circle2 {
+            width: 150px;
+            height: 150px;
+            background-color: #F4F8D3;
+            bottom: 15%;
+            left: 20%;
+            animation-delay: 1s;
+        }
+
+        .circle3 {
+            width: 250px;
+            height: 250px;
+            background-color: #8E7DBE;
+            top: 20%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .circle4 {
+            width: 120px;
+            height: 120px;
+            background-color: #F7CFD8;
+            bottom: 10%;
+            right: 15%;
+            animation-delay: 3s;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.3;
+            }
+        }
+
+        #landing-container {
+            position: relative;
+            background-color: #F4F8D3;
+            color: #8E7DBE;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            z-index: 10;
+            max-width: 400px;
+            margin: auto;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        #landing-container h1 {
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        #landing-container p {
+            color: #555;
+            font-size: 18px;
+        }
+
+        #button-group {
+            margin-top: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 18px;
+            background-color: #A6D6D6;
+            color: #8E7DBE;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            font-family: 'Patrick Hand', cursive;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background-color: #8E7DBE;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<!-- Background Circles -->
+<div class="circle circle1"></div>
+<div class="circle circle2"></div>
+<div class="circle circle3"></div>
+<div class="circle circle4"></div>
+
+<!-- Landing Box -->
+<div id="landing-container">
+    <h1>Welcome to My Diary</h1>
+    <p>Your thoughts, safely stored.</p>
+    <div id="button-group">
+        <a href="/signin" class="btn">Sign In</a>
+        <a href="/login" class="btn">Log In</a>
+    </div>
+</div>
+</body>
+</html>

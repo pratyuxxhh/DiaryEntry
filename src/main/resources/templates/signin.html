@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign In - My Diary App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Patrick Hand', cursive;
+            background-color: #F7CFD8;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Background Circles */
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: pulse 6s infinite ease-in-out;
+        }
+
+        .circle1 {
+            width: 200px;
+            height: 200px;
+            background-color: #A6D6D6;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .circle2 {
+            width: 150px;
+            height: 150px;
+            background-color: #F4F8D3;
+            bottom: 15%;
+            left: 20%;
+            animation-delay: 1s;
+        }
+
+        .circle3 {
+            width: 250px;
+            height: 250px;
+            background-color: #8E7DBE;
+            top: 20%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .circle4 {
+            width: 120px;
+            height: 120px;
+            background-color: #F7CFD8;
+            bottom: 10%;
+            right: 15%;
+            animation-delay: 3s;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.3;
+            }
+        }
+
+        /* Signin Form */
+        #signin-container {
+            position: relative;
+            background-color: #F4F8D3;
+            color: #8E7DBE;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            width: 350px;
+            z-index: 10;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #A6D6D6;
+            border-radius: 10px;
+            font-size: 16px;
+            background-color: #ffffff;
+            color: #333;
+            font-family: 'Patrick Hand', cursive;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #8E7DBE;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #A6D6D6;
+            color: #8E7DBE;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            font-family: 'Patrick Hand', cursive;
+        }
+
+        .btn:hover {
+            transform: scale(1.03);
+            background-color: #8E7DBE;
+            color: white;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #8E7DBE;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<!-- Background Circles -->
+<div class="circle circle1"></div>
+<div class="circle circle2"></div>
+<div class="circle circle3"></div>
+<div class="circle circle4"></div>
+
+<!-- Signin Form -->
+<div id="signin-container">
+    <h2>Create Your Diary Account</h2>
+    <form id="signin-form">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit" class="btn">Sign In</button>
+    </form>
+    <a class="back-link" href="/">← Back to Home</a>
+</div>
+
+<script>  
+    document.getElementById('signin-form').addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    // Get form data
+    const username = document.getElementById('username').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    // Create the request payload
+    const payload = {
+        username: username,
+        email: email,
+        password: password
+    };
+
+    try {
+        // Check if the username already exists
+        const usernameExists = await checkUsername(username);
+        if (usernameExists) {
+            alert('Username already exists. Please choose a different username.');
+            return; // Stop further execution if username exists
+        }
+
+        // Send POST request to create the user
+        const userCreated = await createUser(payload);
+        if (userCreated) {
+            alert('Sign In Successful!');
+            // Redirect or perform other actions
+            window.location.href = '/dashboard'; // Replace with your desired redirect URL
+        } else {
+            alert('Sign In Failed!');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while signing in.');
+    }
+});
+
+// Function to check if the username already exists
+async function checkUsername(username) {
+    try {
+        const response = await fetch(`/check-username?username=${encodeURIComponent(username)}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            return await response.json(); // Backend returns a boolean
+        } else {
+            console.error('Error checking username availability:', response.statusText);
+            alert('Error checking username availability.');
+            return false;
+        }
+    } catch (error) {
+        console.error('Error checking username:', error);
+        alert('An error occurred while checking username availability.');
+        return false;
+    }
+}
+
+// Function to create a new user
+async function createUser(payload) {
+    try {
+        const response = await fetch('/post-user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+            return true; // User created successfully
+        } else {
+            console.error('Error creating user:', response.statusText);
+            return false;
+        }
+    } catch (error) {
+        console.error('Error creating user:', error);
+        return false;
+    }
+}
+</script>
+</body>
+</html>

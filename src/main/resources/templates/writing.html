@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Diary</title>
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+    <style>
+        .delete-btn {
+            background-color: #FF6B6B;
+            color: #FFF;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            background-color: #FF4C4C;
+        }
+
+        .diary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #444;
+        }
+
+        .welcome-message {
+            text-align: center;
+            font-size: 24px;
+            font-family: 'Patrick Hand', cursive;
+            color: #8E7DBE;
+            margin-bottom: 20px;
+        }
+
+        .circle {
+            width: 300px;
+            height: 300px;
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: pulse 6s infinite ease-in-out;
+        }
+
+        .circle1 {
+
+            background-color: #A6D6D6;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .circle2 {
+            background-color: #8E7DBE;
+            bottom: 15%;
+            left: 70%;
+            animation-delay: 1s;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 0.3;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Patrick Hand', cursive;
+            background-color: #F7CFD8;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .journal {
+            background-color: #FFFDF5;
+            width: 90%;
+            max-width: 800px;
+            height: 95vh;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .header h1 {
+            color: #8E7DBE;
+            /* Set the color to #8E7DBE */
+            font-family: 'Patrick Hand', cursive;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .date-fields {
+            display: flex;
+            gap: 10px;
+            /* Adds space between date input and other elements */
+            font-size: 16px;
+        }
+
+        .date-fields input {
+            border: none;
+            border-bottom: 2px solid #A6D6D6;
+            background: transparent;
+            font-size: 16px;
+            padding: 4px 8px;
+            gap: 10px;
+            color: #8E7DBE;
+            width: 130px;
+            font-family: 'Patrick Hand', cursive;
+        }
+
+        .entry {
+            flex: 1;
+            border: 2px solid #F4F8D3;
+            border-radius: 10px;
+            padding: 20px;
+            font-size: 18px;
+            background-color: #fff;
+            resize: none;
+            outline: none;
+            font-family: 'Patrick Hand', cursive;
+            color: #444;
+        }
+
+        .entry:focus {
+            border-color: #8E7DBE;
+        }
+
+        .save-btn {
+            margin-top: 20px;
+            padding: 12px;
+            background-color: #A6D6D6;
+            color: #8E7DBE;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-family: 'Patrick Hand', cursive;
+        }
+
+        .save-btn:hover {
+            background-color: #8E7DBE;
+            color: #fff;
+        }
+
+        .voice-btn {
+            background: none;
+
+            border-radius: 50%;
+            border: 2px solid #8E7DBE;
+            cursor: pointer;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .voice-btn img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .voice-btn:hover img {
+            filter: brightness(0.8);
+        }
+
+        .diary-name {
+            border: none;
+            border-bottom: 2px solid #A6D6D6;
+            background: transparent;
+            font-size: 16px;
+            padding: 4px 8px;
+            color: #333;
+            width: 40%;
+            font-family: 'Patrick Hand', cursive;
+            outline: none;
+        }
+
+        .diary-name:focus {
+            border-color: #8E7DBE;
+        }
+
+        /* Side Menu Styles */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            /* Initially hidden */
+            width: 250px;
+            height: 100%;
+            background-color: #FFFDF5;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+            overflow-y: auto;
+            transition: left 0.3s ease;
+            /* Smooth sliding effect */
+            padding: 20px;
+            font-family: 'Patrick Hand', cursive;
+            z-index: 2000;
+            /* Ensures it appears above the writing area */
+        }
+
+        .side-menu h2 {
+            font-size: 24px;
+            color: #8E7DBE;
+            margin-bottom: 20px;
+        }
+
+        .side-menu ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .side-menu ul li {
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #444;
+        }
+
+        .side-menu ul li:hover {
+            color: #8E7DBE;
+            cursor: pointer;
+        }
+
+        .menu-btn {
+            position: fixed;
+            top: 10px;
+            left: 20px;
+            background-color: #A6D6D6;
+            color: #FFF;
+            border: none;
+            border-radius: 50%;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: 'Patrick Hand', cursive;
+            z-index: 3000;
+            /* Ensures it stays above the side menu */
+        }
+
+        .date-fields {
+            display: flex;
+            align-items: center;
+            /* Align items vertically */
+            gap: 0px;
+            /* Add space between the calendar button and the text */
+        }
+
+        .date-input {
+            border: none;
+            border-bottom: 2px solid #A6D6D6;
+            background: transparent;
+            font-size: 16px;
+            padding: 4px 8px;
+            color: #333;
+            font-family: 'Patrick Hand', cursive;
+            outline: none;
+            width: 1050px;
+            /* Adjust width to fit the full date */
+        }
+
+        .date-input::-webkit-calendar-picker-indicator {
+            order: -1;
+            /* Move the calendar button to the left */
+            background-color: #A6D6D6;
+            border-radius: 50%;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .date-input::-webkit-calendar-picker-indicator:hover {
+            background-color: #8E7DBE;
+        }
+
+        .logout-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #A6D6D6;
+            color: #FFF;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-family: 'Patrick Hand', cursive;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: #8E7DBE;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="circle circle1"></div>
+    <div class="circle circle2"></div>
+    <div class="side-menu" id="sideMenu">
+        <br>
+        <h2>Your Diaries</h2>
+        <ul id="diaryList">
+            <li>add js to get the diaries from db</li>
+            <li>Diary Entry 2</li>
+            <li>Diary Entry 3</li>
+            <li>Diary Entry 4</li>
+        </ul>
+    </div>
+
+    <div class="journal">
+        <div class="welcome-message" id="welcomeMessage">
+            Hi, <span id="username"></span>!
+        </div>
+        <button class="menu-btn" onclick="toggleMenu()">☰</button>
+        <div class="header">
+            <input id="diaryname" type="text" class="diary-name" placeholder="Enter Diary Name" />
+            <div class="date-fields">
+                <input id="datetime" type="date" class="date-input" />
+            </div>
+        </div>
+        <textarea id="body" class="entry" placeholder="Write your thoughts here..."></textarea>
+        <button class="save-btn">Save Entry</button>
+        <div class="header">
+            <h1>Voice Typing</h1>
+            <button class="voice-btn">
+                <img src="https://img.icons8.com/sf-black-filled/64/40C057/microphone.png" alt="Microphone">
+            </button>
+        </div>
+    </div>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+
+    <script>
+        let hiemessage = document.getElementById("welcomeMessage");
+        let username = document.getElementById("username");
+        username = fetch('/user')
+            .then(response => {
+                if (!response.ok) throw new Error("Network error");
+                return response.text();
+            })
+            .then(data => {
+                hiemessage.innerHTML = "Hi, " + data + "!";
+            })
+            .catch(error => console.error("Fetch error:", error));
+
+
+
+            function toggleMenu() {
+    // A GET request to get the diaries from the database and add them to the side menu
+    fetch('/diary')
+        .then(response => {
+            if (response.status === 401) {
+                alert("You are not logged in. Redirecting to login page...");
+                window.location.href = '/login'; // Redirect to login page
+                return;
+            }
+            if (!response.ok) throw new Error("Failed to fetch diaries");
+            return response.json();
+        })
+        .then(diaries => {
+            const diaryList = document.getElementById('diaryList');
+            if (!diaries || diaries.length === 0) {
+                diaryList.innerHTML = '<li>No diaries found.</li>';
+                return;
+            }
+            diaryList.innerHTML = ''; // Clear existing list
+            diaries.forEach(diary => {
+                if (diary && diary.diaryName) { // Ensure diary and diaryName are valid
+                    const li = document.createElement('li');
+                    li.classList.add('diary-item');
+                    li.innerHTML = `
+                        <span class="diary-name" onclick="viewDiary('${diary.diaryName}')">${diary.diaryName}</span>
+                        <button class="delete-btn" onclick="deleteDiary('${diary.diaryName}')">Delete</button>
+                    `;
+                    diaryList.appendChild(li);
+                } else {
+                    diaryList.innerHTML = '<li>No diaries found.</li>';
+                }
+            });
+        })
+        .catch(error => console.error("Error fetching diaries:", error));
+
+    const sideMenu = document.getElementById('sideMenu');
+    if (sideMenu.style.left === '0px') {
+        sideMenu.style.left = '-250px';
+    } else {
+        sideMenu.style.left = '0px';
+    }
+}
+        const voiceBtn = document.querySelector('.voice-btn');
+        const textArea = document.querySelector("#body");
+
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+        let finalTranscript = "";
+        let isOn = false;
+
+        if (!SpeechRecognition) {
+            alert("❌ Your browser doesn't support Speech Recognition.");
+        } else {
+            const recognition = new SpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = "en-US";
+
+            recognition.onstart = () => {
+                console.log("🎙️ Voice recognition started");
+
+                finalTranscript = textArea.value;
+            };
+
+            recognition.onresult = (event) => {
+                let interimTranscript = "";
+
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    const transcript = event.results[i][0].transcript;
+                    if (event.results[i].isFinal) {
+                        finalTranscript += transcript + " ";
+                    } else {
+                        interimTranscript += transcript;
+                    }
+                }
+
+                textArea.value = finalTranscript + interimTranscript;
+            };
+
+            recognition.onerror = (event) => {
+                console.error("Recognition error:", event.error);
+                alert("⚠️ Error: " + event.error);
+            };
+
+            recognition.onend = () => {
+                console.log("🛑 Voice recognition stopped");
+                if (isOn) recognition.start();
+            };
+
+            voiceBtn.addEventListener('click', () => {
+                isOn = !isOn;
+
+                if (isOn) {
+                    voiceBtn.innerHTML = '<img src="https://img.icons8.com/sf-regular/48/40C057/microphone.png" alt="Microphone">';
+                    recognition.start();
+                } else {
+                    voiceBtn.innerHTML = '<img src="https://img.icons8.com/sf-black-filled/64/40C057/microphone.png" alt="Microphone">';
+                    recognition.stop();
+                }
+            });
+        }
+        const saveBtn = document.querySelector('.save-btn');
+
+
+        const now = new Date();
+        saveBtn.addEventListener('click', () => {
+            const diaryName = document.querySelector('#diaryname').value;
+            const date = document.querySelector('#datetime').value;
+            const body = document.querySelector('#body').value;
+
+            console.log(diaryName, date, body);
+            let journalEntry = {
+                dateTime: date,
+                diaryName: diaryName,
+                body: body
+            };
+
+            if (journalEntry.diaryName && journalEntry.dateTime && journalEntry.body) {
+                // Check if the diary name is unique
+                fetch(`/diary/checkName?diaryName=${encodeURIComponent(diaryName)}`)
+                    .then(response => {
+                        if (!response.ok) throw new Error("Failed to check diary name uniqueness");
+                        return response.json();
+                    })
+                    .then(isUnique => {
+                        if (!isUnique) {
+                            // If the diary name !exixts, save the diary
+                            try {
+                                fetch('/diary/post', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify(journalEntry)
+                                })
+                                    .then(response => {
+                                        if (response.ok) {
+                                            alert("📝 Entry saved successfully!");
+                                            console.log(journalEntry.dateTime);
+                                        } else {
+                                            throw new Error("Failed to save diary entry");
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error("Error:", error);
+                                        alert("⚠️ Error saving entry. Please try again.");
+                                    });
+                            } catch (error) {
+                                console.error("Error:", error);
+                                alert("⚠️ Error saving entry. Please try again.");
+                            }
+                        } else {
+                            alert("⚠️ Diary name already exists. Please choose a different name.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error checking diary name uniqueness:", error);
+                        alert("⚠️ Error checking diary name. Please try again.");
+                    });
+            } else {
+                alert("⚠️ Please fill in all fields before saving.");
+            }
+        });
+        function logout() {
+            window.location.href = '/logout';
+        }
+
+
+
+
+        function deleteDiary(diaryname) {
+            const diaryName = diaryname;
+            const encodedName = encodeURIComponent(diaryName);
+            if (confirm("Are you sure you want to delete this diary?")) {
+                fetch(`/diary/${encodedName}`, {
+                    method: 'DELETE',
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert("Diary deleted successfully!");
+                            toggleMenu(); // Refresh the diary list
+                        } else {
+                            alert("Failed to delete diary. Please try again.");
+                        }
+                    })
+                    .catch(error => console.error("Error deleting diary:", error));
+            }
+        }
+
+
+
+        function viewDiary(diaryname) {
+            const diaryName = diaryname;
+            const encodedName = encodeURIComponent(diaryName);
+            fetch(`/diary/${diaryname}`)
+                .then(response => {
+                    if (!response.ok) throw new Error("Failed to fetch diary details");
+                    return response.json();
+                })
+                .then(diary => {
+                    localStorage.setItem('diaryObject', JSON.stringify(diary)); // Print diary details to the console
+                    // Optionally, display the details on the page
+                    window.location.href = `/diary/view`;
+
+                })
+                .catch(error => console.error("Error fetching diary details:", error));
+
+
+        }
+    </script>
+</body>
+
+</html>
