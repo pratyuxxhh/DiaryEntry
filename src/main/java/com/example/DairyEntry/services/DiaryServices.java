@@ -47,10 +47,9 @@ public class DiaryServices {
 
     public boolean existsByDiaryName(String diaryName) {
         Optional<UserDetails> user = userRepo.findByUsername(userServices.getCurrentUser());
-
         List<DiaryPOJO> diaryPOJOList = user.get().getDiarylist();
-        for (DiaryPOJO d : diaryPOJOList){
-            if(d.getDiaryName().equals(diaryName)) return true;
+        for (DiaryPOJO d : diaryPOJOList) {
+            if (d != null && diaryName.equals(d.getDiaryName())) return true;
         }
         return false;
     }
