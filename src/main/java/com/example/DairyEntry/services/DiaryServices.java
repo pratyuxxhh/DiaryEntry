@@ -8,6 +8,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -44,10 +45,22 @@ public class DiaryServices {
         }
     }
 
-    public boolean isDiaryNameUnique(String diaryName) {
-        return getDiaryByName(diaryName) == null;
+    public boolean existsByDiaryName(String diaryName) {
+        Optional<UserDetails> user = userRepo.findByUsername(userServices.getCurrentUser());
+
+        List<DiaryPOJO> diaryPOJOList = user.get().getDiarylist();
+        for (DiaryPOJO d : diaryPOJOList){
+            if(d.getDiaryName().equals(diaryName)) return true;
+        }
+        return false;
     }
 
-    public boolean existsByDiaryName(String diaryName) {return diaryRepo.existsByDiaryName(diaryName);
+    public DiaryPOJO getCurrentUserDiary(String diaryName) {
+        Optional<UserDetails> user = userRepo.findByUsername(userServices.getCurrentUser());
+        List<DiaryPOJO> diaryPOJOList = user.get().getDiarylist();
+        for (DiaryPOJO d : diaryPOJOList){
+            if(d.getDiaryName().equals(diaryName)) return d;
+        }
+        return null;
     }
 }

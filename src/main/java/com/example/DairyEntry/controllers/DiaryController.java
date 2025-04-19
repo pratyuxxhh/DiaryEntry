@@ -29,7 +29,7 @@ public class DiaryController {
     }
     @GetMapping("/{diaryname}")
     public DiaryPOJO getDiary(@PathVariable String diaryname){
-        return diaryServices.getDiaryByName(diaryname);
+        return diaryServices.getCurrentUserDiary(diaryname);
     }
 
     @PostMapping("/post")

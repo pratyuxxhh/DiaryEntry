@@ -435,7 +435,7 @@
             recognition.lang = "en-US";
 
             recognition.onstart = () => {
-                console.log("🎙️ Voice recognition started");
+                
 
                 finalTranscript = textArea.value;
             };
@@ -461,7 +461,7 @@
             };
 
             recognition.onend = () => {
-                console.log("🛑 Voice recognition stopped");
+                
                 if (isOn) recognition.start();
             };
 
@@ -486,7 +486,7 @@
             const date = document.querySelector('#datetime').value;
             const body = document.querySelector('#body').value;
 
-            console.log(diaryName, date, body);
+            
             let journalEntry = {
                 dateTime: date,
                 diaryName: diaryName,
@@ -514,7 +514,7 @@
                                     .then(response => {
                                         if (response.ok) {
                                             alert("📝 Entry saved successfully!");
-                                            console.log(journalEntry.dateTime);
+                                            
                                         } else {
                                             throw new Error("Failed to save diary entry");
                                         }
