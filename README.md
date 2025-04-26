@@ -55,13 +55,14 @@ View Your Diary
 ## DEMO VIDEO FOR YOU
 
 A demo video for you
+
 ![Demo](gif-new.gif)
 
 
 ## 🌐 Live Project
 
 You can try the live version of the Diary Entry app here:  
-👉 [Diary Entry Live Demo](https://diaryentry-3.onrender.com)
+👉 [Click here to redirect to our website](https://diaryentry-3.onrender.com)
 
 ⚡ **Note:** The site may take a few seconds to load because it is hosted on a free Render server, which puts apps to sleep when inactive.
 
