@@ -26,9 +26,9 @@ Clean and user-friendly interface.
 ## 🛠️ Technologies Used
 
 
-Frontend: HTML /CSS /JavaScript
+Frontend: HTML   /CSS /JavaScript
 
-Backend: Java /Spring Boot
+Backend:   Java /Spring Boot / Spring Security (basic Auth)
 
 Database:  MongoDB Atlas
 
